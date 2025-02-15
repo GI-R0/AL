@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alice in Borderland</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <h1>Alice in Borderland</h1>
+        <p>Debes resolver acertijos para sobrevivir y avanzar.</p>
+        
+        <div id="riddles">
+            <div class="riddle" id="riddle-1">
+                <p>Acertijo 1:</p>
+                <p>Siempre corro, pero nunca camino. Tengo boca, pero nunca hablo. Tengo cabeza, pero nunca lloro. ¿Qué soy?</p>
+                <input type="text" id="answer-1">
+                <button onclick="checkAnswer(1, 'rio')">Responder</button>
+                <p class="feedback" id="feedback-1"></p>
+            </div>
+            
+            <div class="riddle" id="riddle-2" style="display: none;">
+                <p>Acertijo 2:</p>
+                <p>Soy ligero como una pluma, pero ni el hombre más fuerte puede sostenerme por más de cinco minutos. ¿Qué soy?</p>
+                <input type="text" id="answer-2">
+                <button onclick="checkAnswer(2, 'aliento')">Responder</button>
+                <p class="feedback" id="feedback-2"></p>
+            </div>
+
+            <div class="riddle" id="riddle-3" style="display: none;">
+                <p>Acertijo 3:</p>
+                <p>Tengo ciudades, pero no tengo casas. Tengo montañas, pero no tengo árboles. Tengo agua, pero no tengo peces. ¿Qué soy?</p>
+                <input type="text" id="answer-3">
+                <button onclick="checkAnswer(3, 'mapa')">Responder</button>
+                <p class="feedback" id="feedback-3"></p>
+            </div>
+
+            <div class="riddle" id="riddle-4" style="display: none;">
+                <p>Acertijo 4:</p>
+                <p>No tengo alas, pero puedo volar. No tengo ojos, pero puedo llorar. ¿Qué soy?</p>
+                <input type="text" id="answer-4">
+                <button onclick="checkAnswer(4, 'nube')">Responder</button>
+                <p class="feedback" id="feedback-4"></p>
+            </div>
+            
+            <div class="riddle" id="riddle-5" style="display: none;">
+                <p>Acertijo 5:</p>
+                <p>Cuanto más me quitas, más grande me vuelvo. ¿Qué soy?</p>
+                <input type="text" id="answer-5">
+                <button onclick="checkAnswer(5, 'hueco')">Responder</button>
+                <p class="feedback" id="feedback-5"></p>
+            </div>
+
+            <div class="riddle" id="riddle-6" style="display: none;">
+                <p>Acertijo 6:</p>
+                <p>Cuanto más me lavas, más sucio me pongo. ¿Qué soy?</p>
+                <input type="text" id="answer-6">
+                <button onclick="checkAnswer(6, 'carbon')">Responder</button>
+                <p class="feedback" id="feedback-6"></p>
+            </div>
+        </div>
+
+        <p id="game-over" style="display: none; color: red;">¡Has perdido todas tus vidas! Game Over.</p>
+        <p id="game-won" style="display: none; color: green;">¡Felicidades! Has resuelto todos los acertijos y has sobrevivido en Borderland.</p>
+    </div>
+
+    <script>
+        let lives = 3;
+        let currentRiddle = 1;
+        const totalRiddles = 6;
+
+        function checkAnswer(riddle, correctAnswer) {
+            const userAnswer = document.getElementById(`answer-${riddle}`).value.toLowerCase();
+            const feedback = document.getElementById(`feedback-${riddle}`);
+            
+            if (userAnswer === correctAnswer) {
+                feedback.textContent = "¡Correcto!";
+                feedback.style.color = "green";
+                
+                setTimeout(() => {
+                    document.getElementById(`riddle-${riddle}`).style.display = "none";
+                    if (riddle < totalRiddles) {
+                        document.getElementById(`riddle-${riddle + 1}`).style.display = "block";
+                    } else {
+                        document.getElementById("game-won").style.display = "block";
+                    }
+                }, 1000);
+            } else {
+                feedback.textContent = "Respuesta incorrecta.";
+                feedback.style.color = "red";
+                lives--;
+                
+                if (lives === 0) {
+                    document.getElementById("game-over").style.display = "block";
+                    document.getElementById("riddles").style.display = "none";
+                } else {
+                    feedback.textContent += ` Te quedan ${lives} vidas.`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
